@@ -1,0 +1,105 @@
+{% load static wagtailuserbar menus_tags %}
+
+{% get_menu "main" as navigation %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            {% block title %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+            {% endblock %}
+            {% block title_suffix %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
+                {% endwith %}
+            {% endblock %}
+        </title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {# Global stylesheets #}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/personalsite.css' %}">
+
+        {% block extra_css %}
+            {# Override this in templates to add extra stylesheets #}
+        {% endblock %}
+    </head>
+
+    <body class="{% block body_class %}{% endblock %}">
+        {% wagtailuserbar %}
+
+
+        <header>
+          <!-- Navigation -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+              <div class="container">
+                <a class="navbar-brand" href="/">Pakwesi</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                    </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                  <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                      <a class="nav-link" href="/">Home
+                            <span class="sr-only">(current)</span>
+                          </a>
+                    </li>
+                    {% for item in navigation.menu_items.all %}
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{ item.link }}" {% if item.open_in_new_tab %}
+                            target="_blank"
+                          {% endif %}>
+                            {{ item.title }}
+                          </a>
+                        </li>
+                    {% endfor %}
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="/blog/">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Contact</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+        </header>
+        <hr>
+        <hr>
+        {% block content %}{% endblock %}
+        <footer class="footer mt-auto py-3">
+          <div class="container">
+            <span class="text-muted">Place sticky footer content here.</span>
+            {% if settings.site_settings.SocialMediaSettings.facebook %}
+              <a href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            {% endif %}
+            {% if settings.site_settings.SocialMediaSettings.twitter %}
+              <a href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
+                <i class="fab fa-twitter"></i>
+              </a>
+            {% endif %}
+            {% if settings.site_settings.SocialMediaSettings.youtube %}
+              <a href="{{ settings.site_settings.SocialMediaSettings.facebook }}">
+                <i class="fab fa-youtube"></i>
+              </a>
+            {% endif %}
+          </div>
+        </footer>
+
+        {# Global javascript #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="{% static 'js/personalsite.js' %}"></script>
+
+        {% block extra_js %}
+            {# Override this in templates to add extra javascript #}
+        {% endblock %}
+    </body>
+</html>

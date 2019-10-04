@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block content %}
+<hr>
+    {{ self.newsubtitle }}
+  <h1>{{ self.newsubtitle }}</h1>
+  {% for block in page.content %}
+    {% include_block block %}
+  {% endfor %}
+{% endblock %}
